@@ -16,7 +16,6 @@ val list1 = 1 :: 2 :: 3 :: Nil
   * 只有那些被要求的元素才会经过计算处理，除此以外stream结构的性能特性与List基本相同。
   */
 val str = 1 #:: 2 #:: 3 #:: Stream.empty
-
 //一个简单的斐波那契数
 def fibFrom(a: Int, b: Int): Stream[Int] = a #:: fibFrom(b, a + b)
 
@@ -90,7 +89,6 @@ hasOne  //值是一直不变的
   */
 val empty=scala.collection.immutable.Queue[Int]()
 val has1=empty.enqueue(1)
-
 //添加多个元素
 val has123=has1.enqueue(List(2,3))
 has1    //不变
