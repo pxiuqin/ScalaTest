@@ -37,11 +37,13 @@ object forTest {
     //13 22 23 31 32 33
     for (i <- 1 to 3; from = 4 - i; j <- from to 3) print((10 * i + j) + "")
 
-    for {
-      i <- 1 to 3
-      from = 4 - i
-      j <- from to 3
-    } print((10 * i + j) + "")
+    //等同于上面的结果
+    (1 to 3).flatMap {
+      i => (4 - i to 3).map {
+        j => print((10 * i + j) + "")
+      }
+    }
+
   }
 
   //以下为for推导，生成的集合与它的第一生成器是类型兼容的
@@ -54,6 +56,25 @@ object forTest {
 
     //生成Vector('H', 'e', 'l', 'l', 'o', 'I', 'f', 'm', 'm', 'p')
     for (i <- 0 to 1; c <- "Hello") yield (c + i).toChar
+  }
+
+  def forTest4: Unit = {
+    for {
+      i <- 1 to 3
+      j <- 1 to i
+      k <- 1 to i
+    } print((i + j) + "@")
+
+    println()
+
+    //等同于上面
+    (1 to 3).flatMap {
+      i => (1 to i).flatMap {
+        j => (1 to i).map {
+          k => print((i + j) + "$")
+        }
+      }
+    }
   }
 
   //可变长
@@ -70,8 +91,10 @@ object forTest {
   }
 }
 
-val s=forTest.sum(1,23,3,4,5,5)
+val s = forTest.sum(1, 23, 3, 4, 5, 5)
 //val s2=forTest.sum(1 to 5)   //错误
-val s2=forTest.sum(1 to 5 : _*)
+val s2 = forTest.sum(1 to 5: _*)
+
+forTest.forTest4
 
 

@@ -33,6 +33,11 @@ object RegexTest {
   def findWord()={
     val word="""^[A-Za-z0-9]+$""".r
   }
+
+  def findWantWord()={
+    val pattern = """--name[^\s]+(^[A-Za-z0-9]+$)[^\s]+>"""
+
+  }
 }
 
 /*
