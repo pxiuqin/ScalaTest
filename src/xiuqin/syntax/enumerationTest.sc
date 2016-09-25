@@ -12,6 +12,7 @@ object TrafficLightColor extends Enumeration {
 //下面两条返回TrafficLightColor.Red
 TrafficLightColor(0)
 TrafficLightColor.withName("Red")
+TrafficLightColor.Red
 
 //枚举的类型是TrafficLightColor.Value而不是TrafficLightColor，后者是握有这些值的对象
 
@@ -23,6 +24,7 @@ object TrafficLightColor2 extends Enumeration {
 
 import TrafficLightColor2._
 
+//这里使用的TrafficLightColor和TrafficLightColor2.Value一个意思
 def doWhat(color: TrafficLightColor) = {
   if (color == Red) "stop"
   else if (color == Yellow) "hurry up"

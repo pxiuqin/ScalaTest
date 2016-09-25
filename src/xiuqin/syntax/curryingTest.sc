@@ -25,11 +25,11 @@ val timesTwo = multiply(2) _
 timesTwo(3)
 
 //你可以对任何多参数函数执行柯里化
-def adder(m:Int)(n:Int):Int=m+n
-def adder1(m:Int,n:Int):Int=m+n
+def adder(m: Int)(n: Int): Int = m + n
+def adder1(m: Int, n: Int): Int = m + n
 
-val add2=(adder1 _).curried
-adder1(2,3)
+val add2 = (adder1 _).curried
+adder1(2, 3)
 add2(2)(3)
 
 //val hao= add2(2) _   //不知为什么有错误
@@ -43,4 +43,22 @@ def capitalizeAll(args: String*) = {
 
 capitalizeAll("liang", "xiuqin")
 
+//高阶函数表示
+def sum(f: Int => Int): (Int, Int) => Int = {
+  def sumf(a: Int, b: Int) = {
+    f(a) + f(b)
+  }
+
+  sumf
+}
+
+//相同功能的Curring化表示
+def sum1(f: Int => Int)(a: Int, b: Int): Int = {
+  f(a) + f(b)
+}
+
+sum((x:Int)=>x+1)(1,2)
+val hao=sum((x:Int)=>x+1)
+sum1((x:Int)=>x+1)(1,2)
+val hao1=sum1((x:Int)=>x+1)_
 

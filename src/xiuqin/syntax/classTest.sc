@@ -115,6 +115,43 @@ class Network {
 //Member所属各自对象。这个Java不同，在Java中内部类从属于外部类
 
 //
-val chatter=new Network
-val myFace=new Network
-val me=new chatter.Member("hao")  //Java chatter.new Member()
+val chatter = new Network
+val myFace = new Network
+val me = new chatter.Member("hao")
+
+//Java chatter.new Member()
+
+//总结一下，实现属性时有如下四个选择
+//1、var foo:Scala自动合成getter和一个setter
+//2、val foo:Scala自动合成一个getter
+//3、有你来定义foo和foo_=方法
+//4、有你来定义foo方法
+//5、不能实现只写属性，即不能带有setter不带有getter
+//6、private[this] 为对象私有，不会生成setter和getter，private为类私有会生成私有的getter和setter
+//7、private[类名]修饰可以定义仅有指定类的方法可以访问给定字段
+
+
+//变量为默认为私有变量共有的getter()
+class Person(val name: String, val age: Int) {}
+
+//变量为类私有相当与private val,私有的变量，私有的getter()和如果是var还有setter()
+class Person1(private val name: String, private val age: Int) {}
+
+//不加var、val，如果至少被一个方法使用，他被升格为字段
+//变量为对象私有等同于private[this] val
+class Person2(name: String, age: Int) {
+  def description = name + " is " + age + " years old."
+}
+
+//如何让主构造函数变成私有，可以放置priavate,这样类用户就只能通过辅助构造器来
+//构造Person3对象了
+class Person3 private(val name:String)
+
+//嵌套类
+//scala可以在任何结构中嵌套任何结构
+//在scala中嵌套类就和自己的字段一样，而java中内部类从属于外部类。
+//比如要构建一个新的内部对象，
+//scala：new chatter.Member
+//java：chatter.new Member()
+
+

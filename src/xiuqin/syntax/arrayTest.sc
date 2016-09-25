@@ -22,7 +22,7 @@
   * 最简单的方法是声明类型参数与ClassManifest的上下文绑定，如 [T: ClassManifest]
   */
 
-val nums=new Array[Int](10)
+val nums = new Array[Int](10)
 val al = Array(1, 2, 3)
 val a2 = al.map(_ * 3)
 al
@@ -32,9 +32,10 @@ a3
 
 //可变长度，java有ArrayList;c++有vector;Scala为ArrayBuffer
 import scala.collection.mutable.ArrayBuffer
-val b=ArrayBuffer[Int]()
-b+=1
-b++=Array(11,434)
+
+val b = ArrayBuffer[Int]()
+b += 1
+b ++= Array(11, 434)
 
 val matrix = Array.ofDim[Double](3, 4) // 3行4列
 matrix(1)(2) = 42
@@ -125,3 +126,48 @@ evenElems1(Vector("this", "is", "a", "test"))
 def wrap[U](xs: Array[U]) = evenElems2(Vector(1, 2, 3, 4))
 
 def wrap1[U: ClassManifest](xs: Array[U]) = evenElems2(Vector(1, 2, 3, 4))
+
+//定长数组
+val s = new Array[String](10)
+s(0) = "xiuqin"
+
+//变长数组
+import scala.collection.mutable.ArrayBuffer
+
+val bc = ArrayBuffer[Int]()
+bc += 1
+bc +=(1, 2, 3, 4)
+bc ++= ArrayBuffer(1, 2, 3, 4, 5)
+bc.trimEnd(3) //删除后3个元素
+
+//从数组缓冲区中移除元素并不高效
+val ab = ArrayBuffer(1, 2, 3, 4, 5, -2, -3, 43, 5)
+var first = true
+val indexes = for (i <- 0 until ab.length if first || ab(i) >= 0) yield {
+  if (ab(i) < 0) first = false; i
+}
+
+//上述找处理正数和第一个负数，下面将元素移动到该去的位置，并截断尾端
+for (j <- 0 until indexes.length) ab(j) = ab(indexes(j))
+ab.trimEnd(ab.length - indexes.length)
+
+val bSorted = ab.sorted(_ < _)
+
+val hao=Array(1,10,8,35,2)
+scala.util.Sorting.quickSort(hao)
+
+//mkString 指定元素之间的分隔符号
+ab.mkString(" and ")
+
+//多维数组
+val matrix1 = Array.ofDim[Int](3,4)
+matrix1(1)(2)   //访问元素
+
+//创建不规则的数组，每行长度不等
+val triangle=new Array[Array[Int]](10)
+for(i<- 0 until triangle.length)
+  triangle(i)= new Array[Int](i+1)
+
+//Array(100)和new Array(100)的区别
+//前一个表达式调用的是apply(100)输出一个Array[int]的100
+//而有一个表达式调用的是this(100)构造了一个100个大小的Array[Nothing]和100个null元素
