@@ -15,62 +15,66 @@ import java.io.PrintStream
 
 
 class Animal {
-  def printName () {
+  def printName() {
   }
 }
 
 
 trait Man extends Animal {
-  def height = 6 ;
+  def height = 6;
 
   override def printName() {
-    super.printName() ;
-    println("Man") ;
+    super.printName();
+    println("Man");
   }
 }
 
 
 trait Bear extends Animal {
-  val color = 'brown ;
+  val color = 'brown;
 
   override def printName() {
-    super.printName() ;
-    println("Bear") ;
+    super.printName();
+    println("Bear");
   }
 }
 
 
 trait Pig extends Animal {
-  val shape = 'round ;
+  val shape = 'round;
 
   override def printName() {
-    super.printName() ;
-    println("Pig") ;
+    super.printName();
+    println("Pig");
   }
 }
 
 
-
 class ManBearPig extends Man with Bear with Pig
+
 class BearManPig extends Bear with Man with Pig
+
 class PigBearMan extends Pig with Bear with Man
+
 class PigManBear extends Pig with Man with Bear
+
 class ManPigBear extends Man with Pig with Bear
+
 class BearPigMan extends Bear with Pig with Man
 
-(new ManBearPig).printName ;
+(new ManBearPig).printName;
 // Prints:
 // Man
 // Bear
 // Pig
 
-(new BearPigMan).printName ;
+(new BearPigMan).printName;
 // Prints:
 // Bear
 // Pig
 // Man
+(new Animal with Man with Bear).printName;
 
-(new Animal with Man with Bear).printName ;
 // Prints:
 // Man
 // Bear
@@ -78,24 +82,29 @@ class BearPigMan extends Bear with Pig with Man
 //
 //叠加在一起的特质
 //
-trait Logged{
-  def log(msg:String){}   //这里不是抽象方法，所以重写需要override
+trait Logged {
+  def log(msg: String) {} //这里不是抽象方法，所以重写需要override
 }
 
 class Account
-class SavingAccount extends Account with Logged{
-  def withdraw(amout:Double): Unit ={
+
+class SavingAccount extends Account with Logged {
+  def withdraw(amout: Double): Unit = {
     //to do
-    log("xiuqin withdraw")  //试想这里这个log方法可是没有实现啊！
+    log("xiuqin withdraw") //试想这里这个log方法可是没有实现啊！
   }
 }
 
-trait ConsoleLogger extends Logged{
-  override def log(msg:String){ println(msg)}
+trait ConsoleLogger extends Logged {
+  override def log(msg: String) {
+    println(msg)
+  }
 }
 
-val acct=new SavingAccount with ConsoleLogger
-acct.withdraw(2.01)   //log可用，因为ConsoleLogger混入了
+val acct = new SavingAccount with ConsoleLogger
+acct.withdraw(2.01)
+
+//log可用，因为ConsoleLogger混入了
 
 //当然你可以给其混入其他的实现
 //val acct2=new SavingAccount with FileLogger
@@ -103,29 +112,30 @@ acct.withdraw(2.01)   //log可用，因为ConsoleLogger混入了
 //
 //特质的wit顺序不同的效果
 //
-
-trait TimestampLogger extends Logged{
-  override def log(msg:String) {
-    super.log(new java.util.Date()+" "+msg)
+trait TimestampLogger extends Logged {
+  override def log(msg: String) {
+    super.log(new java.util.Date() + " " + msg)
   }
 }
 
-trait ShortLogger extends Logged{
-  val maxLength=15
-  override def log(msg:String){
+trait ShortLogger extends Logged {
+  val maxLength = 15
+
+  override def log(msg: String) {
     super.log(
-      if(msg.length<=maxLength) msg else msg.substring(0,maxLength-3)+"..."
+      if (msg.length <= maxLength) msg else msg.substring(0, maxLength - 3) + "..."
     )
   }
 }
 
 //super.log调用的是特质层级中的下一个特质，具体是哪一个，要根据特质添加的顺序来决定。
 //一般来说，特质从最后一个开始被处理
-val acct11=new SavingAccount with ConsoleLogger with TimestampLogger with ShortLogger
+val acct11 = new SavingAccount with ConsoleLogger with TimestampLogger with ShortLogger
 //Sun Feb 06 17:45:45 ICT 2011 Insufficient..
 
 
-val acct22=new SavingAccount with ConsoleLogger with ShortLogger with TimestampLogger
+val acct22 = new SavingAccount with ConsoleLogger with ShortLogger with TimestampLogger
+
 //Sun Feb 06 1...
 
 //
@@ -142,43 +152,50 @@ val acct22=new SavingAccount with ConsoleLogger with ShortLogger with TimestampL
 //
 //在特质中重写抽象方法
 //
-trait Logger1{
-  def log(msg:String)   //这里是个抽象方法
+trait Logger1 {
+  def log(msg: String) //这里是个抽象方法
 }
 
-trait TimestempLogger1 extends Logger1{
+trait TimestempLogger1 extends Logger1 {
   /*override def log(msg:String){  //重写抽象方法
     super.log("")    //super.log定义了吗
   }*/
 
   //必须是abstract以及override。才能在混入一个具体的log方法
-  abstract override def log(msg:String){
+  abstract override def log(msg: String) {
     super.log("")
   }
 }
 
-
 //
 //当作富接口使用的特质
 //
-trait LoggerBase{
-  def log(msg:String)
-  def info(msg:String){log("INFO:"+msg)}
-  def severe(msg:String){log("SEVERE:"+msg)}
-  def warn(msg:String){log("WARN:"+msg)}
+trait LoggerBase {
+  def log(msg: String)
+
+  def info(msg: String) {
+    log("INFO:" + msg)
+  }
+
+  def severe(msg: String) {
+    log("SEVERE:" + msg)
+  }
+
+  def warn(msg: String) {
+    log("WARN:" + msg)
+  }
 }
 
 //特质中使用具体和抽象方法，在使用类中实现
-class SavingsAccount2 extends Account with LoggerBase{
-  def withdraw(amout:Double): Unit ={
-    if(amout>100) severe("xiuqin")
+class SavingsAccount2 extends Account with LoggerBase {
+  def withdraw(amout: Double): Unit = {
+    if (amout > 100) severe("xiuqin")
   }
 
-  override def log(msg:String){
+  override def log(msg: String) {
     print(msg)
   }
 }
-
 
 //
 //特质的构造顺序
@@ -220,33 +237,59 @@ class SavingsAccount2 extends Account with LoggerBase{
 //比如：
 //val acct10=new SavingAccount with FileLogger("hhh.log")  //错误构造器不能有参数
 
-trait FileLogger{}
+trait FileLogger {}
 
 //重写FileLogger中的字段fileName
-val acct110=new SavingAccount with FileLogger{
+val acct110 = new SavingAccount with FileLogger {
   //这样行不通，问题是构造顺序上。FileLogger构造器先于子类构造器执行。
-  val filename="xiuqin.log"
+  val filename = "xiuqin.log"
 }
 
 //一个可行的方法(提前定义)
-val acct12=new {val filename="xiuqin.log"} with SavingAccount with FileLogger
+val acct12 = new {
+  val filename = "xiuqin.log"
+} with SavingAccount with FileLogger
 
 //在类中做同样的事情
-class SavingsAccount3 extends{
-  val filename="xiuqin.log"
-} with Account with FileLogger{
+class SavingsAccount3 extends {
+  val filename = "xiuqin.log"
+} with Account with FileLogger {
   //类的实现
 }
 
-trait Logger{}
+trait Logger {}
+
 //另一个解决方法在FileLogger构造器中使用懒值
-trait FileLogger1 extends Logger{
-  val filename:String
-  lazy val out=new PrintStream(filename)  //使用时才会初始化，且每次使用前的都会检查是否初始化，所有不高效
-  def log(msg:String){out.println(msg)}   //不需要重写override
+trait FileLogger1 extends Logger {
+  val filename: String
+  lazy val out = new PrintStream(filename)
+
+  //使用时才会初始化，且每次使用前的都会检查是否初始化，所有不高效
+  def log(msg: String) {
+    out.println(msg)
+  } //不需要重写override
 }
 
+//自身类型，扩展类，可以扩展Exception的子类
+trait LoggedException extends Logger {
+  this: Exception =>
+  //self
+  def log(): Unit = {
+    println("loggedException")
+  }
+}
 
+//自身类型，扩展结构体，可以扩展所有实现了getMessage方法
+trait LoggedException2 extends Logger {
+  this :{def getMessage():String}=>
+  def log() :Unit = {
+    println("loggedException2")
+  }
+}
+
+class NewLoggedException extends Exception with LoggedException {
+
+}
 
 
 

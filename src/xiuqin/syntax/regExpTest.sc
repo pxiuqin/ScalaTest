@@ -47,3 +47,4 @@ val numitemPattern(num,item)="99 xiuqin"
 
 //针对多个提取是用for
 for(numitePattern(num,item)<-numitemPattern.findAllIn("99 xiuqin,100 liang"))
+  println(num+item)
