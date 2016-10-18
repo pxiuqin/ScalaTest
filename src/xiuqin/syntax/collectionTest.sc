@@ -21,3 +21,19 @@ val sumByLang = votesByLang map { case (lang, counts) =>
 val orderedVotes2 = sumByLang.toSeq
   .sortBy { case (_, count) => count }
   .reverse
+
+//打印三角形
+(1 to 9).map("*" * _).foreach(println)
+
+//找出偶数
+(1 to 9).filter(_ % 2 ==0).foreach(println)
+
+//连乘法(二元参数)
+(1 to 9).reduceLeft(_ * _) //形如((1*2)*3).....)
+
+//二元参数做排序
+"this is xiuqin Liang scalaTest".split(" ").sortWith(_.length<_.length)
+
+//等同于上面的 _.length>_length
+"this is xiuqin Liang scalaTest".split(" ").sortBy(_.length)(Ordering[Int].reverse)
+

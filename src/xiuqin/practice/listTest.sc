@@ -30,6 +30,10 @@ object ListTest {
       cmdSeq.mkString(" ").replace("\\$", "$")
     }
   }
+
+  def nil():Unit= {
+
+  }
 }
 ListTest.formatCMDAndParam("echo 333$hao $buhao \\$hhfa\\$hf",
   "hao= 10\nbuhao= 20\nhhh=1000")
