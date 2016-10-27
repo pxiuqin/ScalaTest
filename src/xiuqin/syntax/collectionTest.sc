@@ -24,16 +24,37 @@ val orderedVotes2 = sumByLang.toSeq
 
 //打印三角形
 (1 to 9).map("*" * _).foreach(println)
-
 //找出偶数
 (1 to 9).filter(_ % 2 ==0).foreach(println)
-
 //连乘法(二元参数)
 (1 to 9).reduceLeft(_ * _) //形如((1*2)*3).....)
-
 //二元参数做排序
 "this is xiuqin Liang scalaTest".split(" ").sortWith(_.length<_.length)
-
 //等同于上面的 _.length>_length
 "this is xiuqin Liang scalaTest".split(" ").sortBy(_.length)(Ordering[Int].reverse)
+val hao=List(1,4,2,5,3)
+hao.init   //除最后一个元素
+hao.tail   //除第一个元素
+hao.collect{
+  case 1 => println("good")
+  case _ => println("bad")
+}
 
+hao.reduceLeft((a,b)=>a+b)
+hao.reduce((a,b)=>a*b)
+
+hao.foldLeft(0)((a,b)=>a+b)
+hao.fold(0)((a,b)=>a+b)
+hao.sum
+hao.product
+hao.max
+hao.min
+hao.partition(_ % 2==0)
+hao.span(_ % 2 !=0)  //遇到一个不满足的情况直接退出了，注意查看运行结果
+hao.splitAt(3)  //固定个数
+hao.slice(1,3)  //获取分片
+hao.mkString(",")
+hao.mkString("[",",","]")
+val buhao=Seq(5,12,7,1,8)
+buhao.permutations   //返回迭代器
+buhao.combinations(2)  //返回组合个数的迭代器

@@ -66,7 +66,7 @@ list1.prefixLength((x:Int)=>x>=0)
 //
 //adding
 //
-
+list1.+:(100)
 100+:list1
 list1:+101
 

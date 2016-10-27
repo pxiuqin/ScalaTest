@@ -38,10 +38,10 @@ fruit.empty
 fruit & animal //交集
 fruit.intersect(animal) //same as fruit&animal
 
-fruit | animal //并集
+fruit | animal //并集，等同与++
 fruit.union(animal) //same as fruit|animal
 
-fruit &~ animal //差集
+fruit &~ animal //差集，等同于--
 fruit.diff(animal) //sam as fruit&~animal
 /*
 以下为可变集合，Mutable.Set
