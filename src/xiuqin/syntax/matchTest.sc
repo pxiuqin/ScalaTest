@@ -96,7 +96,7 @@ pair match {
 
 //正则表达式另一个适合使用提取器的场景，如果有分组，可以是用提取器
 //来匹配每个分组
-val pattern= "([0-9]+) ([a-z]+)".r
+val pattern = "([0-9]+) ([a-z]+)".r
 "99 bottlers" match {
   case pattern(num, item) => println("num and item")
 }
@@ -104,3 +104,26 @@ val pattern= "([0-9]+) ([a-z]+)".r
 //实质是执行了pattern.unapplySeq("99 bottlers")
 //产生一些列匹配分组的字符串，这些字符串被分别赋值给了num和item
 //注意这里的提取器并非是一个伴生对象，而是一个正则表达式对象
+
+
+//
+//变量声明中的模式
+//
+val (x, y) = (1, 2)
+val (q, r) = BigInt(10) /% 3 //返回商和余数的对偶
+
+val arr2 = Array(1, 2, 3, 4)
+val Array(first, second, _*) = arr2
+
+//
+//for表达式中的模式
+//
+import scala.collection.JavaConversions.propertiesAsScalaMap
+
+//将java的properties转换成scala映射--只是为了做出一个有意思的示例
+for ((k, v) <- System.getProperties())
+  println(k + " -> " + v)
+
+//添加守卫
+for ((k, v) <- System.getProperties() if v == "")
+  println(k)
