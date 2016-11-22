@@ -31,6 +31,7 @@ class Pair4[T <: Comparable[T]](val first: T, val second: T) {
 }
 
 val p4 = new Pair4("liang", "xiuqin")
+
 //报错，因为Int不是Comparable[Int]的子类
 //val p5 = new Pair4(13, 21)
 
@@ -72,5 +73,41 @@ class Pair7[T](val first: T, val second: T) {
 
 //
 //上下文界定
+//视图界定T<%V要求必须存在一个从T到V的隐式转换，上下文界定的形式
+//为T:M,其中M是另一个泛型类，要求必须存在一个类型为M[T]的“隐式值”
+//
+class Pair8[T: Ordering](val first: T, val second: T) {
+  def smaller(implicit ord: Ordering[T]) = {
+    if (ord.compare(first, second) < 0) first else second
+  }
+}
+
+//Manifest上下文
+//编写一个泛型函数来构造泛型数组，需要传入Manifest对象
+
+def makePair[T: Manifest](first: T, second: T): Unit = {
+  val r = new Array[T](2)
+  r(0) = first
+  r(1) = second
+  r
+}
+
+//
+//多重界定
+//
+//能同时有上界和下界
+// T >: Lower <:Upper
+
+//不能同时有多个上界或下界，不过可以要求一个类型实现多个特质
+// T <: Comparable[T] with Serializable with Cloneable
+
+//多个视图界定
+// T <% Comparable[T] <% String
+
+//多个上下文界定
+// T : Ordering : Manifest
+
+//
+//类型约束
 //
 
