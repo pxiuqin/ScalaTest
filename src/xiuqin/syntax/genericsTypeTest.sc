@@ -110,4 +110,27 @@ def makePair[T: Manifest](first: T, second: T): Unit = {
 //
 //类型约束
 //
+//T =:= U   是否相等
+//T <:< U   是否是子类型
+//T <&< U   是否被视图（隐式）转换
+class Pair9[T](val first: T, val second: T)(implicit ev: T <:< Comparable[T])
 
+class Pair10[T](val first: T, val second: T) {
+  def smaller(implicit ev: T <:< Ordered[T]) = {
+    if (first < second) first else second
+  }
+
+  def firstLast[A, C <: Iterable[A]](it: C) = (it.head, it.last)
+
+  //当执行firstLst(List(1,2,3)时类型参数为[Nothing,List[Int]]不符合要求的类型
+  //为什么是Nothing呢，因为A和C是在同一个步骤中匹配的。要解决他，应该先匹配C在A
+
+  def firstLast1[A, C <: Iterable[A]](it: C)(implicit ev: C <:< Iterable[A]) = (it.head, it.last)
+}
+
+//当构造Pair10[File]，尽管没有先后次序，但只有当调用smaller才会报错
+
+//一个小实例
+//corresponds 函数的演示
+//def corresponds[B](that:Seq[B])(match:(A,B)=> Boolean):Boolean
+Array("liang", "xiu", "qin").corresponds(Array(5, 3))(_.length == _)
